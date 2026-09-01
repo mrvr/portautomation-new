@@ -7,6 +7,7 @@ outputs/
 
 # Dataset and generated image splits
 boat_type_classification_dataset/
+data/.boat_type_classification_dataset.zip
 train_images/
 val_images/
 test_images/

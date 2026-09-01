@@ -29,6 +29,7 @@ from portautomation.data import (
     split_dataframe,
     summarize_labels,
 )
+from portautomation.dataset import ensure_dataset
 from portautomation.evaluate import (
     build_confusion_matrix,
     collect_predictions,
@@ -149,13 +150,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     args = parse_args()
-    data_dir = Path(args.data_dir)
-
-    if not data_dir.exists():
-        raise FileNotFoundError(
-            f"Dataset directory not found: {data_dir}. "
-            "Unzip boat_type_classification_dataset.zip into the project root."
-        )
+    data_dir = ensure_dataset(Path(args.data_dir))
 
     _prepare_dirs()
     seed_everything(SEED)

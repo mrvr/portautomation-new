@@ -4,6 +4,8 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "boat_type_classification_dataset"
+DATA_ZIP = PROJECT_ROOT / "data" / "boat_type_classification_dataset.zip"
+DATA_ZIP_PARTS = sorted((PROJECT_ROOT / "data").glob("boat_type_classification_dataset.zip.part-*"))
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 FIGURES_DIR = OUTPUT_DIR / "figures"
 MODELS_DIR = OUTPUT_DIR / "models"
