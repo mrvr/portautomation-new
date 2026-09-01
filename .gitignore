@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+outputs/
+
+# Dataset and generated image splits
+boat_type_classification_dataset/
+train_images/
+val_images/
+test_images/
+mobile_train_images/
+mobile_val_images/
+mobile_test_images/
+
+# Secrets
+.env
+.env.*
