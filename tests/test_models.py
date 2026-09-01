@@ -7,8 +7,14 @@ from portautomation.models import build_cnn, build_mobilenet, compile_classifier
 
 
 def test_build_cnn_has_expected_output_shape():
+    import os
+
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     model = build_cnn(image_size=(32, 32), num_classes=3)
-    output = model(tf.zeros((1, 32, 32, 3)))
+    import tensorflow as tf
+
+    with tf.device("/CPU:0"):
+        output = model(tf.zeros((1, 32, 32, 3)))
     assert output.shape == (1, 3)
 
 

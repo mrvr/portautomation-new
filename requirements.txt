@@ -6,3 +6,7 @@ scikit-learn
 Pillow
 tensorflow
 pytest
+fastapi
+uvicorn[standard]
+watchdog
+httpx

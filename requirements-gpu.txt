@@ -1,0 +1,4 @@
+# GPU extras: installs TensorFlow with bundled NVIDIA CUDA/cuDNN wheels.
+# Use: pip install -r requirements-gpu.txt
+-r requirements.txt
+tensorflow[and-cuda]>=2.21.0

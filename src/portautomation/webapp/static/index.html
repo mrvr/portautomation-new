@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Port Automation Control Panel</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>Port Automation</h1>
+      <p>Training control panel and unit test dashboard</p>
+    </div>
+    <div class="header-badge" id="global-status">Connecting...</div>
+  </header>
+
+  <div id="action-banner" class="action-banner info" hidden></div>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="training">Training</button>
+    <button class="tab" data-tab="tests">Unit Tests</button>
+  </nav>
+
+  <main>
+    <section id="training-tab" class="panel active">
+      <div class="grid two-col">
+        <div class="card">
+          <h2>Start / Stop Application</h2>
+          <label for="model-select">Model</label>
+          <select id="model-select">
+            <option value="both">Both (CNN + MobileNetV2)</option>
+            <option value="cnn">CNN only</option>
+            <option value="mobilenet">MobileNetV2 only</option>
+          </select>
+          <div class="actions">
+            <button id="start-btn" class="btn primary">Start Training</button>
+            <button id="stop-btn" class="btn danger" disabled>Stop Training</button>
+          </div>
+        </div>
+
+        <div class="card status-card" id="status-card">
+          <h2>Status</h2>
+          <div class="status-row"><span>State</span><strong id="app-state">idle</strong></div>
+          <div class="status-row"><span>Model</span><strong id="app-model">-</strong></div>
+          <div class="status-row"><span>PID</span><strong id="app-pid">-</strong></div>
+          <div class="status-row"><span>Elapsed</span><strong id="app-elapsed">-</strong></div>
+          <div class="status-row"><span>Device</span><strong id="app-device">-</strong></div>
+          <div class="status-row"><span>Message</span><strong id="app-message">Ready</strong></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Live Log</h2>
+        <pre id="app-logs" class="log-view">Waiting for activity...</pre>
+      </div>
+    </section>
+
+    <section id="tests-tab" class="panel">
+      <div class="grid four-col stats">
+        <div class="stat-card passed"><span>Passed</span><strong id="stat-passed">0</strong></div>
+        <div class="stat-card failed"><span>Failed</span><strong id="stat-failed">0</strong></div>
+        <div class="stat-card skipped"><span>Skipped</span><strong id="stat-skipped">0</strong></div>
+        <div class="stat-card total"><span>Total</span><strong id="stat-total">0</strong></div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div>
+            <h2>Test Dashboard</h2>
+            <p id="tests-meta">No test run yet.</p>
+          </div>
+          <div class="actions">
+            <label class="toggle">
+              <input type="checkbox" id="watch-toggle" checked />
+              Auto-run on changes
+            </label>
+            <button id="generate-tests-btn" class="btn secondary">Regenerate Tests</button>
+            <button id="run-tests-btn" class="btn primary">Run Tests Now</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Test</th>
+                <th>Module</th>
+                <th>Time (s)</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody id="tests-table-body">
+              <tr><td colspan="5">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre id="tests-output" class="log-view">No test output yet.</pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

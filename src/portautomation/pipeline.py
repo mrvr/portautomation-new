@@ -30,6 +30,7 @@ from portautomation.data import (
     summarize_labels,
 )
 from portautomation.dataset import ensure_dataset
+from portautomation.device import configure_devices
 from portautomation.evaluate import (
     build_confusion_matrix,
     collect_predictions,
@@ -154,6 +155,8 @@ def main() -> None:
 
     _prepare_dirs()
     seed_everything(SEED)
+    device = configure_devices()
+    logger.info("Compute device: %s", device.message)
 
     df = load_images_to_dataframe(data_dir)
     logger.info("Dataset shape: %s", df.shape)

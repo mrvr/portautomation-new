@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 .ipynb_checkpoints/
 outputs/
+outputs/test_results.xml
 
 # Dataset and generated image splits
 boat_type_classification_dataset/

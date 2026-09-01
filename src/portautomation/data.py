@@ -18,6 +18,7 @@ from portautomation.config import (
     IMAGE_SCALING,
     IMAGE_SIZE,
 )
+from portautomation.device import optimize_dataset
 from portautomation.validation import (
     validate_directory,
     validate_image_dataframe,
@@ -150,7 +151,8 @@ def _dataset_from_directory(
     )
     class_names = list(dataset.class_names)
     normalization_layer = tf.keras.layers.Rescaling(image_scaling)
-    return dataset.map(lambda x, y: (normalization_layer(x), y)), class_names
+    dataset = dataset.map(lambda x, y: (normalization_layer(x), y))
+    return optimize_dataset(dataset, for_training=shuffle), class_names
 
 
 def build_split_datasets(
