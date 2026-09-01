@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import warnings
+
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.layers import (
@@ -16,6 +18,7 @@ from tensorflow.keras.layers import (
 
 from portautomation.config import IMAGE_SIZE, NUM_CLASSES
 from portautomation.metrics import precision_m, recall_m
+from portautomation.validation import validate_image_size, validate_positive_int
 
 
 def build_cnn(
@@ -23,7 +26,9 @@ def build_cnn(
     num_classes: int = NUM_CLASSES,
 ) -> keras.Model:
     """Scratch CNN used in notebook section 1.4."""
-    width, height = image_size
+    width, height = validate_image_size(image_size)
+    num_classes = validate_positive_int(num_classes, "num_classes")
+
     model = keras.Sequential(
         [
             Input(shape=(width, height, 3)),
@@ -43,13 +48,25 @@ def build_cnn(
 def build_mobilenet(
     image_size: tuple[int, int] = IMAGE_SIZE,
     num_classes: int = NUM_CLASSES,
+    weights: str | None = "imagenet",
 ) -> keras.Model:
     """MobileNetV2 transfer-learning model used in notebook section 2.4."""
-    width, height = image_size
+    width, height = validate_image_size(image_size)
+    num_classes = validate_positive_int(num_classes, "num_classes")
+    if weights is not None and not isinstance(weights, str):
+        raise TypeError("weights must be a string or None")
+
+    if weights is None:
+        warnings.warn(
+            "Building MobileNetV2 without pretrained weights.",
+            UserWarning,
+            stacklevel=2,
+        )
+
     pretrained = tf.keras.applications.MobileNetV2(
         input_shape=(width, height, 3),
         include_top=False,
-        weights="imagenet",
+        weights=weights,
     )
     pretrained.trainable = False
 
@@ -72,6 +89,11 @@ def build_mobilenet(
 
 def compile_classifier(model: keras.Model, optimizer: str = "adam") -> keras.Model:
     """Compile with Adam, categorical crossentropy, accuracy, precision, and recall."""
+    if not isinstance(model, keras.Model):
+        raise TypeError(f"model must be a keras.Model, got {type(model).__name__}")
+    if not isinstance(optimizer, str) or not optimizer.strip():
+        raise ValueError("optimizer must be a non-empty string")
+
     model.compile(
         optimizer=optimizer,
         loss="categorical_crossentropy",
